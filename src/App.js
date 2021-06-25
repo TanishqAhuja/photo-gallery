@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Loader from './components/Loader';
+import Grid from './components/Grid';
+import Header from './components/Header';
+import { fetchImages } from './api';
 import './App.css';
 
 function App() {
+
+  const [unsplashImages, setUnsplashImages] = useState([]);
+
+  const getUnsplashImages = () => {
+    fetchImages()
+      .then(imgData => {
+        if (imgData.length) {
+          setUnsplashImages(prevState => [...prevState, ...imgData]);
+        }
+      });
+  }
+
+  useEffect(() => {
+    getUnsplashImages();
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <InfiniteScroll
+        dataLength={unsplashImages?.length || 0}
+        next={getUnsplashImages}
+        hasMore={true}
+        loader={<Loader />}
+      >
+        <Grid unsplashImages={unsplashImages} getUnsplashImages={getUnsplashImages} />
+      </InfiniteScroll>
     </div>
   );
 }
