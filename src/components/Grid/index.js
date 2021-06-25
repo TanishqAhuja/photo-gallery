@@ -33,8 +33,8 @@ function Grid({ unsplashImages, getUnsplashImages }) {
 			<center>
 				<div className="grid">
 					<SRLWrapper options={srlOptions} callbacks={srlCallbacks}>
-						<ResponsiveMasonry columnsCountBreakPoints={{ 420: 1, 830: 2, 1240: 3 }}>
-							<Masonry>
+						<ResponsiveMasonry columnsCountBreakPoints={{ 420: 1, 830: 2, 1240: 3, 1650: 4, 2060: 5 }}>
+							<Masonry gutter="0 5px">
 								{unsplashImages?.map(
 									unsplashImage => (
 										<a href={unsplashImage.urls.full} key={unsplashImage.id}>
